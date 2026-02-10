@@ -1,0 +1,243 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 3 0 R >> >> >> >>
+endobj
+5 0 obj
+<< /Length 3474 >>
+stream
+BT
+/F1 9 Tf
+36 756 Td
+(﻿Ankit Raj - Software Engineer Intern Assignment) Tj
+0 -12 Td
+(Date: 2026-02-10) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(GitHub Repository: [INSERT GITHUB LINK HERE]) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(============================================================) Tj
+0 -12 Td
+(Assignment 1: Durable Execution Engine \(Java\)) Tj
+0 -12 Td
+(Location: C:\\Users\\91637\\Desktop\\coding\\oops) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Overview) Tj
+0 -12 Td
+(This project implements a minimal Durable Execution Engine that makes normal Java code durable by wrapping side-effecting work in a step call. On restart, completed steps are loaded from SQLite and never re-executed.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Structure) Tj
+0 -12 Td
+(- engine/: core durable engine library) Tj
+0 -12 Td
+(- examples/onboarding/: Employee Onboarding example workflow) Tj
+0 -12 Td
+(- main/: CLI app to start/resume the workflow and simulate crashes) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Build) Tj
+0 -12 Td
+(mvn -q -DskipTests package) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Run) Tj
+0 -12 Td
+(java -jar main/target/app-1.0.0.jar --workflow-id employee-1 --db durable.db) Tj
+0 -12 Td
+(java -jar main/target/app-1.0.0.jar --workflow-id employee-1 --db durable.db --crash-at provision-parallel) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Design Notes) Tj
+0 -12 Td
+(- Sequence Tracking: Each step\(id, ...\) uses a monotonically increasing sequence number to support loops and conditionals without collisions.) Tj
+0 -12 Td
+(- Thread Safety: SQLite writes are guarded by a write lock; WAL mode + busy timeout; each operation uses a fresh connection.) Tj
+0 -12 Td
+(- Zombie Step Handling: If a crash happens between execution and commit, policy is RETRY \(default\) or FAIL via --zombie-policy retry|fail.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Prompts Used \(Assignment 1\)) Tj
+0 -12 Td
+(1\) "read the pdf") Tj
+0 -12 Td
+(2\) "install pypdf2") Tj
+0 -12 Td
+(3\) "generate all code file in java and readme pdf") Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(============================================================) Tj
+0 -12 Td
+(Assignment 2: High-Throughput Fan-Out Engine \(Java\)) Tj
+0 -12 Td
+(Location: C:\\Users\\91637\\Desktop\\coding\\fanout-engine) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Overview) Tj
+0 -12 Td
+(Streaming fan-out engine that ingests large files and distributes records to multiple sink types \(REST, gRPC, MQ, Wide-column DB\) with transformation, throttling, backpressure, retries, and observability.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Architecture Summary) Tj
+0 -12 Td
+(InputReader -> Source Queue -> Dispatcher -> Per-sink Queues -> Sink Workers) Tj
+0 -12 Td
+(Each sink applies a Strategy Transformer \(JSON / Protobuf / XML / Avro+CQL map\).) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Backpressure & Concurrency) Tj
+0 -12 Td
+(- Bounded queues prevent OOM and propagate backpressure.) Tj
+0 -12 Td
+(- Java 21 virtual threads for sink workers.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Resilience) Tj
+0 -12 Td
+(- Per-sink retries \(max 3\).) Tj
+0 -12 Td
+(- Failures written to dlq/<sink>.jsonl.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Observability) Tj
+0 -12 Td
+(- Every 5 seconds prints ingested, dispatched, throughput, and per-sink success/failure/retry counts.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Architecture Diagram) Tj
+0 -12 Td
+(+-------------------+        +-------------------+        +-------------------+) Tj
+0 -12 Td
+(|   InputReader     | -----> |   Source Queue    | -----> |    Dispatcher     |) Tj
+0 -12 Td
+(| \(CSV/JSONL/FIXED\) |        | \(bounded, backpr.\)|        | \(fan-out\)         |) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 7 0 R /Resources << /Font << /F1 3 0 R >> >> >> >>
+endobj
+7 0 obj
+<< /Length 2731 >>
+stream
+BT
+/F1 9 Tf
+36 756 Td
+(+-------------------+        +-------------------+        +---------+---------+) Tj
+0 -12 Td
+(                                                                      |) Tj
+0 -12 Td
+(                                                                      v) Tj
+0 -12 Td
+(      +---------------------+   +---------------------+   +---------------------+) Tj
+0 -12 Td
+(      |  Sink Queue \(REST\)  |   |  Sink Queue \(gRPC\)  |   |   Sink Queue \(MQ\)   |) Tj
+0 -12 Td
+(      |  workers + limiter  |   |  workers + limiter  |   |  workers + limiter  |) Tj
+0 -12 Td
+(      +----------+----------+   +----------+----------+   +----------+----------+) Tj
+0 -12 Td
+(                 |                         |                         |) Tj
+0 -12 Td
+(                 v                         v                         v) Tj
+0 -12 Td
+(           REST Mock Sink            gRPC Mock Sink             MQ Mock Sink) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(                                    +---------------------+) Tj
+0 -12 Td
+(                                    | Sink Queue \(WIDE_DB\)|) Tj
+0 -12 Td
+(                                    | workers + limiter   |) Tj
+0 -12 Td
+(                                    +----------+----------+) Tj
+0 -12 Td
+(                                               |) Tj
+0 -12 Td
+(                                               v) Tj
+0 -12 Td
+(                                        Wide DB Mock Sink) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Prompts Used \(Assignment 2\)) Tj
+0 -12 Td
+(- "Generate a Java 21 fan-out engine design using Strategy + Factory.") Tj
+0 -12 Td
+(- "Implement streaming ingestion for CSV/JSONL with backpressure and bounded queues.") Tj
+0 -12 Td
+(- "Provide a minimal Maven project with tests and README.") Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Suggested Prompts \(Not Necessarily Used\)) Tj
+0 -12 Td
+(Assignment 1) Tj
+0 -12 Td
+(1. "Summarize the durable execution engine requirements and key deliverables.") Tj
+0 -12 Td
+(2. "Draft a minimal Java API for step\(id, Callable<T>\) with SQLite persistence.") Tj
+0 -12 Td
+(3. "Explain how to handle sequence IDs for loops and conditionals.") Tj
+0 -12 Td
+(4. "How to handle zombie steps \(crash between execute and commit\)? Provide policy options.") Tj
+0 -12 Td
+(5. "Review my README for clarity and completeness.") Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Assignment 2) Tj
+0 -12 Td
+(1. "Design a Java 21 fan-out engine with bounded queues, backpressure, and retries.") Tj
+0 -12 Td
+(2. "Implement streaming CSV/JSONL readers without loading whole file.") Tj
+0 -12 Td
+(3. "How to add per-sink rate limiting with retries?") Tj
+0 -12 Td
+(4. "List observability metrics to log every 5 seconds.") Tj
+0 -12 Td
+(5. "Provide a simple architecture diagram text.") Tj
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000000318 00000 n 
+0000003844 00000 n 
+0000003973 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+6756
+%%EOF

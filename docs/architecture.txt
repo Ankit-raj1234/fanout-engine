@@ -1,0 +1,26 @@
+﻿High-Throughput Fan-Out Engine - Architecture
+
++-------------------+        +-------------------+        +-------------------+
+|   InputReader     | -----> |   Source Queue    | -----> |    Dispatcher     |
+| (CSV/JSONL/FIXED) |        | (bounded, backpr.)|        | (fan-out)         |
++-------------------+        +-------------------+        +---------+---------+
+                                                                      |
+                                                                      v
+      +---------------------+   +---------------------+   +---------------------+
+      |  Sink Queue (REST)  |   |  Sink Queue (gRPC)  |   |   Sink Queue (MQ)   |
+      |  workers + limiter  |   |  workers + limiter  |   |  workers + limiter  |
+      +----------+----------+   +----------+----------+   +----------+----------+
+                 |                         |                         |
+                 v                         v                         v
+           REST Mock Sink            gRPC Mock Sink             MQ Mock Sink
+
+                                    +---------------------+
+                                    | Sink Queue (WIDE_DB)|
+                                    | workers + limiter   |
+                                    +----------+----------+
+                                               |
+                                               v
+                                        Wide DB Mock Sink
+
+Each sink applies a Strategy Transformer (JSON / Protobuf / XML / Avro+CQL map).
+Retries (max 3) + DLQ write on failure. Metrics every 5 seconds.

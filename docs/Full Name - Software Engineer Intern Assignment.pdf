@@ -1,0 +1,179 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 5 0 R /Resources << /Font << /F1 3 0 R >> >> >> >>
+endobj
+5 0 obj
+<< /Length 3631 >>
+stream
+BT
+/F1 9 Tf
+36 756 Td
+(﻿Full Name - Software Engineer Intern Assignment) Tj
+0 -12 Td
+(Date: 2026-02-10) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Project: High-Throughput Fan-Out Engine \(Java 21\)) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Overview) Tj
+0 -12 Td
+(- Streaming ingestion from CSV / JSONL / Fixed-width.) Tj
+0 -12 Td
+(- Fan-out to REST, gRPC, MQ, Wide-DB mock sinks.) Tj
+0 -12 Td
+(- Per-sink transformations, rate limiting, retries, DLQ.) Tj
+0 -12 Td
+(- Backpressure via bounded queues and virtual-thread workers.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Architecture \(summary\)) Tj
+0 -12 Td
+(- InputReader -> Source Queue -> Dispatcher -> Per-sink Queue -> Sink Workers) Tj
+0 -12 Td
+(- Transformer per sink type: JSON, Protobuf \(manual wire encoding\), XML, Avro/CQL map.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Backpressure & Concurrency) Tj
+0 -12 Td
+(- Bounded queues for source and sinks prevent OOM.) Tj
+0 -12 Td
+(- Virtual threads per sink worker scale with CPU cores.) Tj
+0 -12 Td
+(- Dispatcher blocks when any sink queue is full, slowing ingestion safely.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Resilience) Tj
+0 -12 Td
+(- Each record retried up to 3 times per sink.) Tj
+0 -12 Td
+(- Permanent failures are appended to dlq/<sink>.jsonl.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Observability) Tj
+0 -12 Td
+(- Every 5 seconds prints: ingested, dispatched, throughput, per-sink success/failure/retries.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Assumptions) Tj
+0 -12 Td
+(- Records are small per line and fit in memory.) Tj
+0 -12 Td
+(- Timestamps are numeric when provided.) Tj
+0 -12 Td
+(- Protobuf payload uses standard wire encoding via CodedOutputStream.) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Prompts Used) Tj
+0 -12 Td
+(- “Generate a Java 21 fan-out engine design using Strategy + Factory.”) Tj
+0 -12 Td
+(- “Implement streaming ingestion for CSV/JSONL with backpressure and bounded queues.”) Tj
+0 -12 Td
+(- “Provide a minimal Maven project with tests and README.”) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Architecture Diagram) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(High-Throughput Fan-Out Engine - Architecture) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(+-------------------+        +-------------------+        +-------------------+) Tj
+0 -12 Td
+(|   InputReader     | -----> |   Source Queue    | -----> |    Dispatcher     |) Tj
+0 -12 Td
+(| \(CSV/JSONL/FIXED\) |        | \(bounded, backpr.\)|        | \(fan-out\)         |) Tj
+0 -12 Td
+(+-------------------+        +-------------------+        +---------+---------+) Tj
+0 -12 Td
+(                                                                      |) Tj
+0 -12 Td
+(                                                                      v) Tj
+0 -12 Td
+(      +---------------------+   +---------------------+   +---------------------+) Tj
+0 -12 Td
+(      |  Sink Queue \(REST\)  |   |  Sink Queue \(gRPC\)  |   |   Sink Queue \(MQ\)   |) Tj
+0 -12 Td
+(      |  workers + limiter  |   |  workers + limiter  |   |  workers + limiter  |) Tj
+0 -12 Td
+(      +----------+----------+   +----------+----------+   +----------+----------+) Tj
+0 -12 Td
+(                 |                         |                         |) Tj
+0 -12 Td
+(                 v                         v                         v) Tj
+0 -12 Td
+(           REST Mock Sink            gRPC Mock Sink             MQ Mock Sink) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(                                    +---------------------+) Tj
+0 -12 Td
+(                                    | Sink Queue \(WIDE_DB\)|) Tj
+0 -12 Td
+(                                    | workers + limiter   |) Tj
+0 -12 Td
+(                                    +----------+----------+) Tj
+0 -12 Td
+(                                               |) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 7 0 R /Resources << /Font << /F1 3 0 R >> >> >> >>
+endobj
+7 0 obj
+<< /Length 358 >>
+stream
+BT
+/F1 9 Tf
+36 756 Td
+(                                               v) Tj
+0 -12 Td
+(                                        Wide DB Mock Sink) Tj
+0 -12 Td
+() Tj
+0 -12 Td
+(Each sink applies a Strategy Transformer \(JSON / Protobuf / XML / Avro+CQL map\).) Tj
+0 -12 Td
+(Retries \(max 3\) + DLQ write on failure. Metrics every 5 seconds.) Tj
+0 -12 Td
+() Tj
+ET
+endstream
+endobj
+xref
+0 8
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000189 00000 n 
+0000000318 00000 n 
+0000004001 00000 n 
+0000004130 00000 n 
+trailer
+<< /Size 8 /Root 1 0 R >>
+startxref
+4539
+%%EOF

@@ -1,0 +1,44 @@
+﻿input:
+  path: sample/input.jsonl
+  format: JSONL
+  delimiter: ","
+
+queue:
+  sourceQueueSize: 2000
+
+metrics:
+  intervalSeconds: 5
+
+sinks:
+  - name: restSink
+    type: REST
+    workers: 2
+    queueSize: 500
+    rateLimitPerSec: 50
+    maxRetries: 3
+    latencyMs: 10
+    errorRate: 0.02
+  - name: grpcSink
+    type: GRPC
+    workers: 2
+    queueSize: 500
+    rateLimitPerSec: 200
+    maxRetries: 3
+    latencyMs: 5
+    errorRate: 0.01
+  - name: mqSink
+    type: MQ
+    workers: 1
+    queueSize: 500
+    rateLimitPerSec: 100
+    maxRetries: 3
+    latencyMs: 8
+    errorRate: 0.01
+  - name: wideDbSink
+    type: WIDE_DB
+    workers: 2
+    queueSize: 500
+    rateLimitPerSec: 500
+    maxRetries: 3
+    latencyMs: 2
+    errorRate: 0.01

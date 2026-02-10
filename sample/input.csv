@@ -1,0 +1,4 @@
+﻿id,name,email,timestamp,country,tier
+1,Ada,ada@example.com,1700000000,US,gold
+2,Bob,bob@example.com,1700000001,IN,silver
+3,Cara,cara@example.com,1700000002,DE,gold

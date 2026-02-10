@@ -1,0 +1,10 @@
+﻿syntax = "proto3";
+package fanout;
+
+message Record {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  int64 timestamp = 4;
+  map<string, string> attributes = 5;
+}
